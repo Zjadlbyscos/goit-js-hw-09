@@ -5,12 +5,14 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import 'notiflix/dist/notiflix-3.2.6.min.css';
 
 const obj = {
-dateTimePicker: document.querySelector('datetime-picker'),
+dateTimePicker: document.querySelector('#datetime-picker'),
 startButton: document.querySelector('[data-start]'),
-daysElement: document.querySelector('[data-days]'),
-hoursElement: document.querySelector('[data-hours]'),
-minutesElement: document.querySelector('[data-minutes]'),
-secondsElement: document.querySelector('[data-seconds]'),
+time:{
+days: document.querySelector('[data-days]'),
+hours: document.querySelector('[data-hours]'),
+minutes: document.querySelector('[data-minutes]'),
+seconds: document.querySelector('[data-seconds]'),
+}
 }
 
 const options = {
@@ -27,14 +29,64 @@ const options = {
 
 flatpickr(obj.dateTimePicker,{...options});
 
-function datePicker(selectedDates){
+function datePicker(selectedDates) {
+    // why why ?
     if (selectedDates[0].getTime()<= new Date()){
         Notify.failure('Please choose a date in the future',{
             clickToClose: true,
             timeout: 10 * 1000,
+            position: 'top-right',
         });
         obj.startButton.setAttribute('disabled', true);
     }else{
         obj.startButton.setAttribute('disabled', false);
     }
 }
+obj.startButton.addEventListener('click', btnStartHandler);
+
+function btnStartHandler(){
+    obj.startButton.setAttribute('disabled', true);
+    obj.dateTimePicker.setAttribute('disabled',  true);
+
+timerId = setInterval(() => {
+    const chooseDate = new Date(obj.dateTimePicker.value);
+    const timeToFinish = chooseDate - Date.now();
+    const { days, hours, minutes, seconds } = convertMs(timeToFinish);
+
+    obj.time.days.textContent = addLeadingZero(days);
+    obj.time.hours.textContent = addLeadingZero(hours);
+    obj.time.minutes.textContent = addLeadingZero(minutes);
+    obj.time.seconds.textContent = addLeadingZero(seconds);
+
+    if (timeToFinish <= 0){
+        clearInterval(timerId)
+        obj.dateTimePicker.setAttribute('disabled', false);
+    }
+
+})}
+function addLeadingZero(value) {
+    return value.toString().padStart(2, '0');
+}
+
+function convertMs(ms) {
+    // Number of milliseconds per unit of time
+      const second = 1000;
+      const minute = second * 60;
+      const hour = minute * 60;
+      const day = hour * 24;
+    
+    // Remaining days
+      const days = Math.floor(ms / day);
+    // Remaining hours
+      const hours = Math.floor((ms % day) / hour);
+    // Remaining minutes
+      const minutes = Math.floor(((ms % day) % hour) / minute);
+    // Remaining seconds
+      const seconds = Math.floor((((ms % day) % hour) % minute) / second);
+    
+      return { days, hours, minutes, seconds };
+    }
+    
+    console.log(convertMs(2000));// {days: 0, hours: 0, minutes: 0, seconds: 2}
+    console.log(convertMs(140000));// {days: 0, hours: 0, minutes: 2, seconds: 20}
+    console.log(convertMs(24140000));// {days: 0, hours: 6 minutes: 42, seconds: 20}
