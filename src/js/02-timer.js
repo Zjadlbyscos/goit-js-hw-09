@@ -5,7 +5,7 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 import 'notiflix/dist/notiflix-3.2.6.min.css';
 
 const obj = {
-  dateTimePicker: document.querySelector('#datetime-picker'), // Poprawione
+  dateTimePicker: document.querySelector('#datetime-picker'),
   startButton: document.querySelector('[data-start]'),
   time: {
     days: document.querySelector('[data-days]'),
@@ -21,8 +21,8 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-   datePicker(selectedDates); 
-   console.log(selectedDates[0]);
+    datePicker(selectedDates);
+    console.log(selectedDates[0]);
   },
 };
 
@@ -39,19 +39,19 @@ function datePicker(selectedDates) {
     });
     obj.startButton.setAttribute('disabled', true);
   } else {
-    obj.startButton.setAttribute('disabled', false);
+    obj.startButton.removeAttribute('disabled');
   }
 }
 
 obj.startButton.addEventListener('click', btnStartHandler);
 
-let timerId; 
+let timerId;
 
-function btnStartHandler(){
-    obj.startButton.setAttribute('disabled', true);
-    obj.dateTimePicker.setAttribute('disabled',  true);
+function btnStartHandler() {
+  obj.startButton.setAttribute('disabled', true);
+  obj.dateTimePicker.setAttribute('disabled', true);
 
-timerId = setInterval(() => {
+  timerId = setInterval(() => {
     const chooseDate = new Date(obj.dateTimePicker.value);
     const timeToFinish = chooseDate - Date.now();
     const { days, hours, minutes, seconds } = convertMs(timeToFinish);
@@ -61,14 +61,18 @@ timerId = setInterval(() => {
     obj.time.minutes.textContent = addLeadingZero(minutes);
     obj.time.seconds.textContent = addLeadingZero(seconds);
 
-    if (timeToFinish <= 0){
-        clearInterval(timerId)
-        obj.dateTimePicker.setAttribute('disabled', false);
+    if (timeToFinish <= 0) {
+      clearInterval(timerId);
+      obj.dateTimePicker.setAttribute('disabled', true);
+      return;
+    } else {
+      obj.dateTimePicker.removeAttribute('disabled');
     }
+  });
+}
 
-})}
 function addLeadingZero(value) {
-    return value.toString().padStart(2, '0');
+  return value.toString().padStart(2, '0');
 }
 function convertMs(ms) {
   const second = 1000;
