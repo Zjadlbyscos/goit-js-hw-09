@@ -30,7 +30,7 @@ function btnSubmitHandler(e) {
   const amount = parseInt(obj.amount.value);
 
   if (delay < 0 || step < 0 || amount < 1) {
-    Notify.warning(`❗ Fill in amount greater than 0 ❗`, {
+    Notify.warning(`❗ Enter a value greater than zero ❗`, {
       clickToClose: true,
       timeout: 3 * 1000,
       position: 'center-top',
