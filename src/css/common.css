@@ -16,3 +16,14 @@ img {
   display: block;
   max-width: 100%;
 }
+.timer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.date-picker{
+  display: flex;
+  justify-content: center;
+  padding-bottom: 3vw;
+}
