@@ -48,7 +48,6 @@ obj.startButton.addEventListener('click', btnStartHandler);
 let timerId;
 
 function btnStartHandler() {
-  
   obj.startButton.setAttribute('disabled', true);
   obj.dateTimePicker.setAttribute('disabled', true);
 
@@ -61,7 +60,16 @@ function btnStartHandler() {
     obj.time.hours.textContent = addLeadingZero(hours);
     obj.time.minutes.textContent = addLeadingZero(minutes);
     obj.time.seconds.textContent = addLeadingZero(seconds);
-
+    // jeśli "timeToFinish <= 1" to odlicza do "-1" alternatywnie, po zakończniu odliczania mozna:
+    // if (timeToFinish <= 0) {
+    //   clearInterval(timerId);
+    //   obj.dateTimePicker.setAttribute('disabled', true);
+    //   obj.time.days.textContent = '00';
+    //   obj.time.hours.textContent = '00';
+    //   obj.time.minutes.textContent = '00';
+    //   obj.time.seconds.textContent = '00';
+    //   return;
+    // }
     if (timeToFinish <= 1) {
       clearInterval(timerId);
       obj.dateTimePicker.setAttribute('disabled', true);
