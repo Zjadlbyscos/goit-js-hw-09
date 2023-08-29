@@ -48,6 +48,7 @@ obj.startButton.addEventListener('click', btnStartHandler);
 let timerId;
 
 function btnStartHandler() {
+  
   obj.startButton.setAttribute('disabled', true);
   obj.dateTimePicker.setAttribute('disabled', true);
 
@@ -61,7 +62,7 @@ function btnStartHandler() {
     obj.time.minutes.textContent = addLeadingZero(minutes);
     obj.time.seconds.textContent = addLeadingZero(seconds);
 
-    if (timeToFinish <= 0) {
+    if (timeToFinish <= 1) {
       clearInterval(timerId);
       obj.dateTimePicker.setAttribute('disabled', true);
       return;
