@@ -61,7 +61,8 @@ function btnStartHandler() {
     obj.time.minutes.textContent = addLeadingZero(minutes);
     obj.time.seconds.textContent = addLeadingZero(seconds);
     // jeśli "timeToFinish <= 1" to odlicza do "-1" alternatywnie, po zakończniu odliczania mozna:
-    // if (timeToFinish <= 0) {
+    // 
+    //if (timeToFinish <= 0) {
     //   clearInterval(timerId);
     //   obj.dateTimePicker.setAttribute('disabled', true);
     //   obj.time.days.textContent = '00';
